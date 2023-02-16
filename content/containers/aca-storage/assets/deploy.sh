@@ -12,11 +12,11 @@ FILE_STORAGE_NAME='my-azure-files'
 az group create --location $LOCATION --resource-group $RG_NAME
 
 # create storage account & azure file share
-az storage account create --name $STORAGE_ACCOUNT --resource-group $RG_NAME --location $LOCATION --sku Standard_LRS
+az storage account create --name $STORAGE_ACCOUNT_NAME --resource-group $RG_NAME --location $LOCATION --sku Standard_LRS
 STORAGE_ACCOUNT_KEY=`az storage account keys list --resource-group $RG_NAME --account-name $STORAGE_ACCOUNT_NAME --query [0].value --output tsv`
-az storage share create --name $FILE_SHARE_NAME --account-name $STORAGE_ACCOUNT --account-key $STORAGE_ACCOUNT_KEY
+az storage share create --name $FILE_SHARE_NAME --account-name $STORAGE_ACCOUNT_NAME --account-key $STORAGE_ACCOUNT_KEY
 
-# create container environment & container app
+# create container environment & app
 az containerapp env create --name $ACA_ENV --resource-group $RG_NAME --location $LOCATION
 az containerapp create --name $ACA_APP --resource-group $RG_NAME --environment $ACA_ENV
 
