@@ -1,5 +1,5 @@
-express=require('express');
-bodyParser=require('body-parser');
+import express from 'express';
+import bodyParser from 'express'
 
 const APP_PORT = process.env.APP_PORT || '3000';
 const PUBSUB_NAME = process.env.PUBSUB_NAME || 'pubsub';
@@ -13,12 +13,12 @@ app.get('/dapr/subscribe', (_req, res) => {
         {
             pubsubname: `${PUBSUB_NAME}`,
             topic: `${PUBSUB_TOPIC}`,
-            route: "orders"
+            route: `${PUBSUB_TOPIC}`
         }
     ]);
 });
 
-// Dapr subscription routes 'orders' topic to this route
+// Dapr subscription sends orders to this route
 app.post('/orders', (req, res) => {
     console.log("Subscriber received:", req.body.data);
     res.sendStatus(200);

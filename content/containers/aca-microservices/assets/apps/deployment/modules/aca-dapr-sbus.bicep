@@ -24,10 +24,6 @@ resource acaEnv 'Microsoft.App/managedEnvironments@2022-01-01-preview' existing 
   name: acaEnvName
 }
 
-resource sbus 'Microsoft.Cache/redis@2021-06-01' existing = {
-  name: sbusName
-}
-
 resource acr 'Microsoft.ContainerRegistry/registries@2021-12-01-preview' existing = {
   name: acrName
 }
@@ -46,6 +42,8 @@ resource pubApp 'Microsoft.App/containerApps@2022-03-01' = {
         appPort: int(pubAppPort)
         appProtocol: 'http'
         enabled: true
+        enableApiLogging: true
+        logLevel: 'debug'
       }
       secrets: secrets
       registries: [

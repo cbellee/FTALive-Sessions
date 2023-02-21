@@ -21,7 +21,7 @@ resource sbusPubSubDaprComponent 'Microsoft.App/managedEnvironments/daprComponen
   ]
   name: '${acaEnv.name}/${pubSubName}'
   properties: {
-    componentType: 'pubsub.azure.servicebus'
+    componentType: 'pubsub.azure.servicebus.topics'
     version: 'v1'
     ignoreErrors: false
     initTimeout: '60s'

@@ -24,10 +24,6 @@ resource acaEnv 'Microsoft.App/managedEnvironments@2022-03-01' existing = {
   name: acaEnvName
 }
 
-resource redis 'Microsoft.Cache/redis@2021-06-01' existing = {
-  name: redisName
-}
-
 resource acr 'Microsoft.ContainerRegistry/registries@2021-12-01-preview' existing = {
   name: acrName
 }
@@ -46,6 +42,7 @@ resource subApp 'Microsoft.App/containerApps@2022-03-01' = {
         appPort: int(subAppPort)
         appProtocol: 'http'
         enabled: true
+        enableApiLogging: true
       }
       secrets: secrets
       registries: [
@@ -86,6 +83,10 @@ resource subApp 'Microsoft.App/containerApps@2022-03-01' = {
               name: 'PUBSUB_TOPIC'
               value: pubSubTopic
             }
+            {
+              name: 'APP_PORT'
+              value: subAppPort
+            }
           ]
         }
       ]
@@ -111,6 +112,8 @@ resource pubApp 'Microsoft.App/containerApps@2022-03-01' = {
         appPort: int(pubAppPort)
         appProtocol: 'http'
         enabled: true
+        enableApiLogging: true
+        logLevel: 'debug'
       }
       secrets: secrets
       registries: [
@@ -150,6 +153,10 @@ resource pubApp 'Microsoft.App/containerApps@2022-03-01' = {
             {
               name: 'PUBSUB_TOPIC'
               value: pubSubTopic
+            }
+            {
+              name: 'APP_PORT'
+              value: pubAppPort
             }
           ]
         }

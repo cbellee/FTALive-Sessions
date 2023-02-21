@@ -32,6 +32,7 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2022-03-01' 
   name: containerAppEnvName
   properties: {
     daprAIInstrumentationKey: ai.properties.InstrumentationKey
+    daprAIConnectionString: ai.properties.ConnectionString
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {

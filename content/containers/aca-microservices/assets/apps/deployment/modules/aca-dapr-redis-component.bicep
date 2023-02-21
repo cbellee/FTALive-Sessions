@@ -4,6 +4,13 @@ param pubAppName string
 param subAppName string
 param pubSubName string
 
+var secrets = [
+  {
+    name: 'redis-password'
+    value: redis.listKeys().primaryKey
+  }
+]
+
 resource acaEnv 'Microsoft.App/managedEnvironments@2022-03-01' existing = {
   name: acaEnvName
 }
@@ -21,7 +28,8 @@ resource redisPubSubDaprComponent 'Microsoft.App/managedEnvironments/daprCompone
     componentType: 'pubsub.redis'
     version: 'v1'
     ignoreErrors: false
-    initTimeout: '60s'
+    initTimeout: '2m'
+    secrets: secrets
     metadata: [
       {
         name: 'redisHost'
@@ -29,7 +37,7 @@ resource redisPubSubDaprComponent 'Microsoft.App/managedEnvironments/daprCompone
       }
       {
         name: 'redisPassword'
-        value: redis.listKeys().primaryKey
+        secretRef: 'redis-password'
       }
       {
         name: 'enableTLS'

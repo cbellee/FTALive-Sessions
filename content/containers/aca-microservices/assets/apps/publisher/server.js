@@ -1,4 +1,4 @@
-axios = require("axios");
+import axios from "axios";
 
 const DAPR_HOST = process.env.DAPR_HOST || "http://localhost";
 const DAPR_HTTP_PORT = process.env.DAPR_HTTP_PORT || "3500";
@@ -13,7 +13,9 @@ async function main() {
     const order = { orderId: i };
 
     // Publish an event using Dapr pub/sub
-    await axios.post(`${DAPR_HOST}:${DAPR_HTTP_PORT}/v1.0/publish/${PUBSUB_NAME}/${PUBSUB_TOPIC}`, order)
+    let publishUrl = `${DAPR_HOST}:${DAPR_HTTP_PORT}/v1.0/publish/${PUBSUB_NAME}/${PUBSUB_TOPIC}`
+
+    await axios.post(publishUrl, order)
       .then(function (response) {
         console.log("Published order: " + response.config.data);
       })
@@ -24,7 +26,7 @@ async function main() {
         errObj.url = error.config.url
         errObj.method = error.config.method
         errObj.data = error.config.data
-        
+
         console.log(JSON.stringify(errObj));
       });
 
